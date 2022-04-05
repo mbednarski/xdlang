@@ -1,0 +1,39 @@
+%import common.WS
+%import common.DIGIT
+%import common.CNAME
+%import common.SIGNED_NUMBER
+%import common.ESCAPED_STRING
+%import common.FLOAT
+
+
+expr: LITERAL
+      | IDENTIFIER 
+      | expr BINARY_OPERATOR expr
+      | UNARY_OPERATOR expr
+
+let_stmt: "let" TYPE_IDENTIFIER IDENTIFIER "=" expr ";"
+
+// ?stmt: let_stmt | rvalue
+
+// rvalue : INT_VALUE
+// lvalue : IDENTIFIER
+
+// let_stmt: "let" IDENTIFIER IDENTIFIER "=" INT_VALUE ";"
+
+// debug_print_stmt: "DEBUG_PRINT" "(" lvalue ")"
+
+// stmt: (assign_stmt | debug_print_stmt) ";"
+
+program: (let_stmt)+
+
+
+LITERAL: SIGNED_NUMBER | ESCAPED_STRING | "true" | "false"
+IDENTIFIER: CNAME
+TYPE_IDENTIFIER: CNAME
+
+
+BINARY_OPERATOR: "+" | "-" | "*" | "/" | "and" | "or" | "==" | "!=" | "<" | ">" | "<=" | ">="
+
+UNARY_OPERATOR: "-" | "not"
+
+%ignore WS
