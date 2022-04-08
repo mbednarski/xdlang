@@ -1,0 +1,2 @@
+let char zuo = "Q";
+PUTCHAR zuo;

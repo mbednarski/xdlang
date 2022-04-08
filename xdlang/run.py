@@ -1,10 +1,11 @@
 from llvmlite import ir
 from rich import print as rprint
 
-import xdlang.types as xdtypes
+import xdlang.xdtypes as xdtypes
+from xdlang.codegen import LlvmCodeGenerator
 from xdlang.parser import parse_text, transform_parse_tree
 
-with open("program.xd", "rt") as f:
+with open("test_programs/mut.xd", "rt") as f:
     program_text = f.read()
 
 tree = parse_text(program_text)
@@ -13,11 +14,15 @@ rprint(tree)
 ast = transform_parse_tree(tree)
 rprint(ast)
 
-module = ir.Module("asdf")
-main_fn = ir.Function(module, xdtypes.main_fn_t, "main")
-main_body = main_fn.append_basic_block("entry")
-builder = ir.IRBuilder(main_body)
+code_generator = LlvmCodeGenerator()
+code_generator.generate_runtime()
 
-ast.codegen(builder)
+ast.accept(code_generator)
 
-print(module)
+code_generator.generate_epilogue()
+
+ir_code = code_generator.get_ir_code()
+print(ir_code)
+
+with open("asdf_module.ll", "wt") as f:
+    f.write(str(ir_code))

@@ -7,11 +7,14 @@
 
 
 expr: LITERAL
-      | IDENTIFIER 
+      | IDENTIFIER
       | expr BINARY_OPERATOR expr
       | UNARY_OPERATOR expr
 
 let_stmt: "let" TYPE_IDENTIFIER IDENTIFIER "=" expr ";"
+mut_stmt: "mut" IDENTIFIER "=" expr ";"
+
+putchar_stmt: "PUTCHAR" expr ";"
 
 // ?stmt: let_stmt | rvalue
 
@@ -24,7 +27,14 @@ let_stmt: "let" TYPE_IDENTIFIER IDENTIFIER "=" expr ";"
 
 // stmt: (assign_stmt | debug_print_stmt) ";"
 
-program: (let_stmt)+
+
+?stmt: let_stmt | putchar_stmt | mut_stmt | if_stmt
+block: "{" stmt+ "}"
+
+if_stmt: "if" expr block ["else" block]
+
+
+program: block
 
 
 LITERAL: SIGNED_NUMBER | ESCAPED_STRING | "true" | "false"

@@ -5,8 +5,8 @@ from lark import Lark, ParseTree, Token, Transformer, tree
 from llvmlite import ir
 from rich import print as rprint
 
-import xdlang.types as xdtypes
-import xdlang.xd_ast as xdast
+import xdlang.xdast as xdast
+import xdlang.xdtypes as xdtypes
 
 
 class XdTransformer(Transformer):
@@ -17,11 +17,34 @@ class XdTransformer(Transformer):
     def IDENTIFIER(self, i):
         return str(i)
 
+    def block(self, items):
+        return xdast.BlockNode(items)
+
     def program(self, items):
         return xdast.ProgramNode(items)
 
+    def if_stmt(self, items):
+        return xdast.IfStmtNode(items[0], items[1], items[2])
+
     def let_stmt(self, items):
-        return xdast.LetStmtNode(items[0], items[1], items[2])
+        type_ = xdtypes.XDType.from_typename(items[0])
+        identifier = items[1]
+        expr = items[2]
+        return xdast.LetStmtNode(type_, identifier, expr)
+
+    def mut_stmt(self, items):
+        identifier = items[0]
+        expr = items[1]
+        return xdast.MutStmtNode(identifier, expr)
+
+    def print_stmt(self, items):
+        return xdast.PrintStmtNode(items[0])
+
+    def print_nl_stmt(self, items):
+        return xdast.PrintNlNode()
+
+    def putchar_stmt(self, items):
+        return xdast.PutcharStmtNode(items[0])
 
     def expr(self, items):
         if len(items) == 1 and type(items[0]) is xdast.LiteralNode:
