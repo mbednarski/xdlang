@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.ttml": "xml",
+        "*.ttss": "css"
+    },
+    "python.formatting.provider": "black"
+}

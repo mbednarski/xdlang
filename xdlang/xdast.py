@@ -238,6 +238,15 @@ class IfStmtNode(Node):
         pass
 
 
+class WhileStmtNode(Node):
+    def __init__(self, condition, body):
+        self.condition = condition
+        self.body = body
+
+    def accept(self, visitor):
+        visitor.visit_while_stmt(self)
+
+
 class ProgramNode(Node):
     def __init__(self, items: list):
         self.block = items[0]

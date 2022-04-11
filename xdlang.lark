@@ -16,6 +16,8 @@ mut_stmt: "mut" IDENTIFIER "=" expr ";"
 
 putchar_stmt: "PUTCHAR" expr ";"
 
+while_stmt: "while" expr block
+
 // ?stmt: let_stmt | rvalue
 
 // rvalue : INT_VALUE
@@ -28,7 +30,7 @@ putchar_stmt: "PUTCHAR" expr ";"
 // stmt: (assign_stmt | debug_print_stmt) ";"
 
 
-?stmt: let_stmt | putchar_stmt | mut_stmt | if_stmt
+?stmt: let_stmt | putchar_stmt | mut_stmt | if_stmt | while_stmt
 block: "{" stmt+ "}"
 
 if_stmt: "if" expr block ["else" block]

@@ -11,6 +11,7 @@ from xdlang.xdast import (
     LiteralNode,
     MutStmtNode,
     ProgramNode,
+    WhileStmtNode,
 )
 from xdlang.xdtypes import XDType, main_fn_t
 
@@ -105,6 +106,23 @@ class LlvmCodeGenerator:
             if node.else_block is not None:
                 with otherwise:
                     node.else_block.accept(self)
+
+    def visit_while_stmt(self, node: WhileStmtNode):
+        condition_block: ir.Block = self.builder.append_basic_block("while_condition")
+        body_loop = self.builder.append_basic_block("body_loop")
+        after_loop = self.builder.append_basic_block("after_while")
+        with self.builder.goto_block(condition_block):
+            evaluated_condition = node.condition.accept(self)
+            self.builder.cbranch(evaluated_condition, body_loop, after_loop)
+        with self.builder.goto_block(body_loop):
+            node.body.accept(self)
+            self.builder.branch(condition_block)
+        self.builder.position_at_start(after_loop)
+
+        print(self.module)
+        pass
+
+        # self.builder.append_basic_block('end_while')
 
 
 class XDException(Exception):

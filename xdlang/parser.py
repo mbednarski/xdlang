@@ -46,6 +46,9 @@ class XdTransformer(Transformer):
     def putchar_stmt(self, items):
         return xdast.PutcharStmtNode(items[0])
 
+    def while_stmt(self, items):
+        return xdast.WhileStmtNode(items[0], items[1])
+
     def expr(self, items):
         if len(items) == 1 and type(items[0]) is xdast.LiteralNode:
             return items[0]

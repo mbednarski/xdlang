@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"name": "xdlang",
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.ttml": "xml",
+			"*.ttss": "css"
+		}
+	}
+}

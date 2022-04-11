@@ -1,0 +1,8 @@
+{
+    let int x = 0;
+    while true
+    {
+        mut x = 2;
+    }
+    let int y = 3;
+}
