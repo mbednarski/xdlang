@@ -228,14 +228,14 @@ class IfStmtNode(Node):
         self.if_block = if_block
         self.else_block = else_block
 
+    def accept(self, visitor):
+        condition_code = self.condition.accept(visitor)
+        if_code = self.if_block.accept(visitor)
+        else_code = self.else_block.accept(visitor)
+        visitor.visit_if_stmt(self, condition_code, if_code, else_code)
+
     def codegen(self, builder: ir.IRBuilder):
-        cond_val = self.condition.codegen(builder)
-        with builder.if_else(cond_val) as (then, otherwise):
-            with then:
-                self.if_block.codegen(builder)
-            if self.else_block is not None:
-                with otherwise:
-                    self.else_block.codegen(builder)
+        pass
 
 
 class ProgramNode(Node):

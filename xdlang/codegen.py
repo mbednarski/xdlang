@@ -6,6 +6,7 @@ from xdlang.lookup_table import LookupTable, Variable
 from xdlang.xdast import (
     BinaryOpNode,
     GetVariableNode,
+    IfStmtNode,
     LetStmtNode,
     LiteralNode,
     MutStmtNode,
@@ -95,6 +96,15 @@ class LlvmCodeGenerator:
             )
 
         self.builder.store(expr_val, var.var)
+
+    def visit_if_stmt(self, node: IfStmtNode, condition_code, if_code, else_code):
+        evaluated_condition = node.condition.accept(self)
+        with self.builder.if_else(evaluated_condition) as (then, otherwise):
+            with then:
+                node.if_block.accept(self)
+            if node.else_block is not None:
+                with otherwise:
+                    node.else_block.accept(self)
 
 
 class XDException(Exception):

@@ -1,0 +1,11 @@
+{
+    let int x = 0;
+    if false
+    {
+        mut x = 1;
+    }
+    else
+    {
+        mut x = 2;
+    }
+}
