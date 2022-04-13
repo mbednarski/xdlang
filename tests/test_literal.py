@@ -1,7 +1,7 @@
 import pytest
 
 from xdlang.parser import parse_text, transform_parse_tree
-from xdlang.xdast import LiteralNode
+from xdlang.xd_ast import LiteralNode
 from xdlang.xdtypes import XDType
 
 

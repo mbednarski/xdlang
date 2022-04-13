@@ -1,7 +1,7 @@
 from hypothesis import given
 from hypothesis import strategies as st
 
-from xdlang.xdast import IntLiteralNode
+from xdlang.xd_ast import IntLiteralNode
 
 
 @given(st.integers())

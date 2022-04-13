@@ -17,7 +17,7 @@ class XDType(Enum):
     FLOAT = 1
     BOOL = 2
     CHAR = 3
-    # STRING = 4
+    STRING = 4
 
     def get_ir_type(self) -> ir.Type:
         match self:
@@ -43,8 +43,8 @@ class XDType(Enum):
                 return XDType.BOOL
             case "char":
                 return XDType.CHAR
-            # case "string":
-            #     return XDType.STRING
+            case "string":
+                return XDType.STRING
             case _:
                 raise TypeError(f"Invalid typename: {typename}")
 

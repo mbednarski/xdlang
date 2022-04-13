@@ -1,0 +1,47 @@
+%import common.WS
+%import common.DIGIT
+%import common.CNAME
+%import common.NUMBER
+%import common.ESCAPED_STRING
+%import common.FLOAT
+
+LITERAL: NUMBER | ESCAPED_STRING | "true" | "false"
+
+expr: LITERAL
+
+print_stmt: "PRINT" expr ";"
+
+?statement: print_stmt
+block: "{" statement* "}"
+
+program: block
+
+
+%ignore WS
+
+// expr: LITERAL
+//       | IDENTIFIER
+//       | expr BINARY_OPERATOR expr
+//       | UNARY_OPERATOR expr
+
+// let_stmt: "let" TYPE_IDENTIFIER IDENTIFIER "=" expr ";"
+// mut_stmt: "mut" IDENTIFIER "=" expr ";"
+
+// putchar_stmt: "PUTCHAR" expr ";"
+
+// while_stmt: "while" expr block
+
+// ?stmt: let_stmt | putchar_stmt | mut_stmt | if_stmt | while_stmt
+// block: "{" stmt+ "}"
+
+// if_stmt: "if" expr block ["else" block]
+
+
+// program: block
+// LITERAL: SIGNED_NUMBER | ESCAPED_STRING | "true" | "false"
+// IDENTIFIER: CNAME
+// TYPE_IDENTIFIER: CNAME
+// BINARY_OPERATOR: "+" | "-" | "*" | "/" | "and" | "or" | "==" | "!=" | "<" | ">" | "<=" | ">="
+// UNARY_OPERATOR: "-" | "not"
+
+// %ignore WS

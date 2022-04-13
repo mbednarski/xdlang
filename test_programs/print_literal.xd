@@ -1,0 +1,7 @@
+{
+    PRINT "asdf";
+    PRINT 85;
+    PRINT 0.0;
+    PRINT true;
+    PRINT false;
+}

@@ -3,7 +3,7 @@ from hypothesis import example, given
 from hypothesis import strategies as st
 
 from xdlang.parser import parse_text, transform_parse_tree
-from xdlang.xdast import BinaryOpNode, IntLiteralNode
+from xdlang.xd_ast import BinaryOpNode, IntLiteralNode
 
 
 @given(

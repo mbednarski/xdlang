@@ -3,7 +3,7 @@ from unittest.mock import Mock
 from hypothesis import given
 from hypothesis import strategies as st
 
-from xdlang.xdast import BinaryOpNode, Node
+from xdlang.xd_ast import BinaryOpNode, Node
 
 
 @given(st.sampled_from(["+", "-", "*", "/"]))
