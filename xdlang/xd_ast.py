@@ -24,6 +24,9 @@ class LiteralNode(Node):
     def accept(self, visitor) -> Any:
         return visitor.visit_literal(self)
 
+    def __str__(self) -> str:
+        return f"{self.type} {self.value}"
+
     # def __str__(self) -> str:
     #     return f"{self.line}:{self.column} LiteralNode of type {self.type} and value {self.value}"
 
@@ -37,6 +40,9 @@ class BinaryNode(Node):
 
     def accept(self, visitor):
         return visitor.visit_binary(self)
+
+    def __str__(self) -> str:
+        return f"Binary {self.operator}"
 
 
 class UnaryNegNode(Node):
@@ -55,6 +61,9 @@ class ReadVarNode(Node):
 
     def accept(self, visitor):
         return visitor.visit_read_var(self)
+
+    def __str__(self) -> str:
+        return f"read {self.identifier}"
 
     # def __str__(self):
     #     return f"{self.line}:{self.column} BinaryNode:{self.operator}"

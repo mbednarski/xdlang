@@ -15,6 +15,14 @@ rprint(tree)
 ast = transform_parse_tree(tree)
 rprint(ast)
 
+from xd_ast_printer import AstPrinter
+
+printer = AstPrinter()
+printer.visit_binary(ast.children[0].children[0].children[2])
+
+printer.print()
+
+
 # code_generator = LlvmCodeGenerator()
 # code_generator.generate_runtime()
 

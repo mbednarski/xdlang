@@ -19,6 +19,21 @@ class XDType(Enum):
     CHAR = 3
     STRING = 4
 
+    def __str__(self) -> str:
+        match self:
+            case XDType.INT:
+                return "int"
+            case XDType.FLOAT:
+                return "float"
+            case XDType.BOOL:
+                return "bool"
+            case XDType.CHAR:
+                return "char"
+            case XDType.STRING:
+                return "string"
+            case _:
+                raise TypeError(f"Unknown type: {self}")
+
     def get_ir_type(self) -> ir.Type:
         match self:
             case XDType.INT:
