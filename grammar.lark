@@ -24,7 +24,7 @@ print_stmt: "PRINT" expr ";"
 
 ?atom: LITERAL
         | "-" atom  -> unary_neg
-        | IDENTIFIER
+        | IDENTIFIER -> read_var
         | "(" sum ")"
 
 // sum: sum "+" term

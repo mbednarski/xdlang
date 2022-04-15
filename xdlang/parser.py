@@ -33,16 +33,15 @@ class XDTransformer(Transformer):
         return xd_ast.UnaryNegNode(items[0].line, items[0].line, items[0])
 
     def expr(self, items: list[Token]):
-        if len(items) == 1:
-            item = items[0]
-            match type(item):
-                case xd_ast.BinaryNode:
-                    return item
-                case lark.lexer.Token:
-                    assert item.type == "IDENTIFIER"
-                    return xd_ast.ReadVarNode(item.line, item.column, item.value)
-                case _:
-                    assert False
+        assert len(items) == 1
+        assert isinstance(items[0], xd_ast.Node)
+
+        return items[0]
+
+    def read_var(self, items: List[Token]):
+        assert len(items) == 1
+        item = items[0]
+        return xd_ast.ReadVarNode(item.line, item.column, item.value)
 
 
 # class XdTransformer(Transformer):
