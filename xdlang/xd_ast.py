@@ -3,7 +3,6 @@ from typing import Any
 
 import llvmlite.ir as ir
 
-from xdlang.lookup_table import Variable
 from xdlang.xdtypes import XDType
 
 
