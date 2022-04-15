@@ -49,6 +49,28 @@ class XDTransformer(Transformer):
         item = items[0]
         return xd_ast.ReadVarNode(item.line, item.column, item.value)
 
+    def let_stmt(self, items: List[Token | xd_ast.Node]):
+        assert len(items) == 3
+        assert isinstance(items[0], Token)
+        assert isinstance(items[1], Token)
+        assert isinstance(items[2], xd_ast.Node)
+
+        return xd_ast.LetStmtNode(
+            items[0].line,
+            items[0].column,
+            xdtypes.XDType.from_typename(items[0].value),
+            items[1].value,
+            items[2],
+        )
+
+    def block(slf, items):
+        # TODO: empty stmt
+        statements = items[1:-1]
+        return xd_ast.BlockNode(items[0].line, items[0].column, statements)
+
+    def program(self, items):
+        return xd_ast.ProgramNode(0, 0, items[0])
+
 
 # class XdTransformer(Transformer):
 

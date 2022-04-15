@@ -10,7 +10,6 @@ class AstPrinter:
         pass
 
     def visit_binary(self, node: xd_ast.BinaryNode):
-        print(f'{"  " * self.indent}{node}')
         branch = self.branch_stack[-1].add(str(node))
         self.branch_stack.append(branch)
         node.lhs.accept(self)
@@ -22,6 +21,19 @@ class AstPrinter:
 
     def visit_literal(self, node: xd_ast.LiteralNode):
         self.branch_stack[-1].add(str(node))
+
+    def visit_let_stmt(self, node: xd_ast.LetStmtNode):
+        branch = self.branch_stack[-1].add(f"let {node.identifier}:{node.type}")
+        self.branch_stack.append(branch)
+        node.expr.accept(self)
+        self.branch_stack.pop()
+
+    def visit_block(self, node: xd_ast.BlockNode):
+        for stmt in node.statements:
+            stmt.accept(self)
+
+    def visit_program(self, node: xd_ast.ProgramNode):
+        self.visit_block(node.block)
 
     def print(self):
         rprint(self.branch_stack[0])

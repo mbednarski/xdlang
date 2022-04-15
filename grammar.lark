@@ -49,7 +49,7 @@ expr: sum | LITERAL
 
 
 ?statement: print_stmt | let_stmt | mut_stmt
-block: "{" statement* "}"
+!block: "{" statement* "}"
 
 program: block
 

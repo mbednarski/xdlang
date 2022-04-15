@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, List
 
 import llvmlite.ir as ir
 
@@ -64,6 +64,34 @@ class ReadVarNode(Node):
 
     def __str__(self) -> str:
         return f"read {self.identifier}"
+
+
+class LetStmtNode(Node):
+    def __init__(
+        self, line: int, column: int, type: XDType, identifier: str, expr: Node
+    ) -> None:
+        super().__init__(line, column)
+        self.type = type
+        self.identifier = identifier
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visit_let_stmt(self)
+
+
+class BlockNode(Node):
+    def __init__(self, line: int, column: int, statements: List[Node]) -> None:
+        super().__init__(line, column)
+        self.statements = statements
+
+    def accept(self, visitor):
+        return visitor.visit_block(self)
+
+
+class ProgramNode(Node):
+    def __init__(self, line: int, column: int, block: BlockNode) -> None:
+        super().__init__(line, column)
+        self.block = block
 
     # def __str__(self):
     #     return f"{self.line}:{self.column} BinaryNode:{self.operator}"

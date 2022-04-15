@@ -18,7 +18,7 @@ rprint(ast)
 from xd_ast_printer import AstPrinter
 
 printer = AstPrinter()
-printer.visit_binary(ast.children[0].children[0].children[2])
+printer.visit_program(ast)
 
 printer.print()
 
