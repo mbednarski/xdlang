@@ -6,12 +6,49 @@
 %import common.FLOAT
 
 LITERAL: NUMBER | ESCAPED_STRING | "true" | "false"
+IDENTIFIER: CNAME
 
-expr: LITERAL
 
+let_stmt: "let" IDENTIFIER IDENTIFIER "=" expr ";"
+mut_stmt: "mut" IDENTIFIER "=" expr ";"
 print_stmt: "PRINT" expr ";"
 
-?statement: print_stmt
+!?sum: product
+        | sum "+" product
+        | sum "-" product
+
+!?product: atom
+    | product "*" atom
+    | product "/" atom
+    | product "%" atom
+
+?atom: LITERAL
+        | "-" atom  -> unary_neg
+        | IDENTIFIER
+        | "(" sum ")"
+
+// sum: sum "+" term
+//     | sum "-" term
+//     | term
+
+// term:
+//     | term "*" factor
+//     | term "/" factor
+//     | term "%" factor
+//     | factor
+
+// factor:
+//     | "+" factor
+//     | "-" factor
+//     | LITERAL
+//     | IDENTIFIER
+
+expr: sum | LITERAL
+
+// sum: product "+" product | expr "-" expr
+
+
+?statement: print_stmt | let_stmt | mut_stmt
 block: "{" statement* "}"
 
 program: block

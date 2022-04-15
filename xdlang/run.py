@@ -6,7 +6,7 @@ import xdlang.xdtypes as xdtypes
 # from xdlang.codegen import LlvmCodeGenerator
 from xdlang.parser import parse_text, transform_parse_tree
 
-with open("test_programs/print_literal.xd", "rt") as f:
+with open("test_programs/infix.xd", "rt") as f:
     program_text = f.read()
 
 tree = parse_text(program_text)

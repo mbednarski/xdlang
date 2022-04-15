@@ -3,4 +3,5 @@
     let float zue_zuo = 0.0;
     let boolean foo = false;
     let char x = "x";
+    let string s = "the cake is a lie";
 }

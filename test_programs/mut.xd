@@ -1,4 +1,5 @@
 {
     let int x = 0;
-    mut x = -3;
+    mut x = 3;
+    let int y = x;
 }

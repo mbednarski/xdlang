@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from pprint import pprint
 from typing import Any, List, Tuple
 
+import lark
 from lark import Lark, ParseTree, Token, Transformer, ast_utils, tree
 from lark.lexer import Token
 from llvmlite import ir
@@ -15,6 +16,33 @@ class XDTransformer(Transformer):
     def LITERAL(self, item: Token):
         type, value = xdtypes.XDType.infer_from_literal(item.value)
         return xd_ast.LiteralNode(item.line, item.column, type, value)
+
+    def product(self, items: list[Token]):
+        assert len(items) == 3
+        return xd_ast.BinaryNode(
+            items[1].line, items[1].column, items[0], items[1].value, items[2]
+        )
+
+    def sum(self, items: list[Token]):
+        assert len(items) == 3
+        return xd_ast.BinaryNode(
+            items[1].line, items[1].column, items[0], items[1].value, items[2]
+        )
+
+    def unary_neg(self, items: list[Token]):
+        return xd_ast.UnaryNegNode(items[0].line, items[0].line, items[0])
+
+    def expr(self, items: list[Token]):
+        if len(items) == 1:
+            item = items[0]
+            match type(item):
+                case xd_ast.BinaryNode:
+                    return item
+                case lark.lexer.Token:
+                    assert item.type == "IDENTIFIER"
+                    return xd_ast.ReadVarNode(item.line, item.column, item.value)
+                case _:
+                    assert False
 
 
 # class XdTransformer(Transformer):

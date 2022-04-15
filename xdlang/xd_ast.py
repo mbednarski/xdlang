@@ -25,8 +25,43 @@ class LiteralNode(Node):
     def accept(self, visitor) -> Any:
         return visitor.visit_literal(self)
 
-    def __str__(self) -> str:
-        return f"{self.line}:{self.column} LiteralNode of type {self.type} and value {self.value}"
+    # def __str__(self) -> str:
+    #     return f"{self.line}:{self.column} LiteralNode of type {self.type} and value {self.value}"
+
+
+class BinaryNode(Node):
+    def __init__(self, line: int, column: int, lhs: Node, operator: str, rhs: Node):
+        super().__init__(line, column)
+        self.lhs = lhs
+        self.operator = operator
+        self.rhs = rhs
+
+    def accept(self, visitor):
+        return visitor.visit_binary(self)
+
+
+class UnaryNegNode(Node):
+    def __init__(self, line: int, column: int, operand: Node):
+        super().__init__(line, column)
+        self.operand = operand
+
+    def accept(self, visitor):
+        return visitor.visit_unary_neg(self)
+
+
+class ReadVarNode(Node):
+    def __init__(self, line: int, column: int, identifier: str):
+        super().__init__(line, column)
+        self.identifier = identifier
+
+    def accept(self, visitor):
+        return visitor.visit_read_var(self)
+
+    # def __str__(self):
+    #     return f"{self.line}:{self.column} BinaryNode:{self.operator}"
+
+    # def __repr__(self):
+    #     return f"{self.line}:{self.column} BinaryNode:{self.operator}"
 
 
 # class Node(ABC):
