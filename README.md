@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/mbednarski/xdlang/branch/master/graph/badge.svg?token=Q3QWZROFJW)](https://codecov.io/gh/mbednarski/xdlang)
+
 Types:
 * character `char`
 * 64-bit integer `int`

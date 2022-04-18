@@ -17,6 +17,6 @@ jobs:
     - name: Install requirements
       run: pip install -r requirements.txt && pip install -e .
     - name: Run tests and collect coverage
-      run: coverage run --branch -m pytest && coverage xml
+      run: coverage run --source=. --branch -m pytest && coverage xml
     - name: Upload coverage reports to Codecov with GitHub Action
       uses: codecov/codecov-action@v2
