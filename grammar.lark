@@ -4,8 +4,9 @@
 %import common.NUMBER
 %import common.ESCAPED_STRING
 %import common.FLOAT
+%import common.LETTER
 
-LITERAL: NUMBER | ESCAPED_STRING | "true" | "false"
+LITERAL: NUMBER | ESCAPED_STRING | "true" | "false" | "'" (LETTER | WS ) "'"
 IDENTIFIER: CNAME
 
 
@@ -26,6 +27,8 @@ print_stmt: "PRINT" expr ";"
         | "-" atom  -> unary_neg
         | IDENTIFIER -> read_var
         | "(" sum ")"
+
+
 
 // sum: sum "+" term
 //     | sum "-" term
