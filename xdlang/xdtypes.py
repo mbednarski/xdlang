@@ -68,10 +68,14 @@ class XDType(Enum):
         if literal == "true" or literal == "false":
             return cls.BOOL, literal == "true"
         if literal.startswith('"') and literal.endswith('"'):
+            return cls.STRING, literal[1:-1]
+        if literal.startswith("'") and literal.endswith("'"):
             if len(literal) == 3:
                 return cls.CHAR, literal[1]
             else:
-                return cls.STRING, literal[1:-1]
+                raise ValueError(
+                    f"Char cannot contain multiple characters! Literal >>{literal}<<"
+                )
         try:
             as_numeric = float(literal)
             if "." in literal:
