@@ -13,6 +13,8 @@ IDENTIFIER: CNAME
 let_stmt: "let" IDENTIFIER IDENTIFIER "=" expr ";"
 mut_stmt: "mut" IDENTIFIER "=" expr ";"
 print_stmt: "PRINT" expr ";"
+noop_stmt: "NOOP" ";"
+return_stmt: "return" expr ";"
 
 !?sum: product
         | sum "+" product
@@ -51,7 +53,7 @@ expr: sum | LITERAL
 // sum: product "+" product | expr "-" expr
 
 
-?statement: print_stmt | let_stmt | mut_stmt
+?statement: print_stmt | let_stmt | mut_stmt | noop_stmt | return_stmt
 !block: "{" statement* "}"
 
 program: block
