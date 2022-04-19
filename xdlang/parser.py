@@ -78,6 +78,12 @@ class XDTransformer(Transformer):
     def program(self, items):
         return xd_ast.ProgramNode(0, 0, items[0])
 
+    def mut_stmt(self, items):
+        return xd_ast.MutStmtNode(items[0].line, items[0].column, items[0], items[1])
+
+    def __default__(self, data, children, meta):
+        raise ValueError("Unknow node type: {}".format(data))
+
 
 # class XdTransformer(Transformer):
 

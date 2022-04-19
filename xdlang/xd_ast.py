@@ -95,6 +95,16 @@ class LetStmtNode(Node):
         return visitor.visit_let_stmt(self)
 
 
+class MutStmtNode(StmtNode):
+    def __init__(self, line: int, column: int, identifier: str, expr: Node) -> None:
+        super().__init__(line, column)
+        self.identifier = identifier
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visit_mut_stmt(self)
+
+
 class BlockNode(Node):
     def __init__(self, line: int, column: int, statements: List[Node]) -> None:
         super().__init__(line, column)
