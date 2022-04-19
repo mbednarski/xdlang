@@ -6,7 +6,7 @@
 %import common.FLOAT
 %import common.LETTER
 
-LITERAL: NUMBER | ESCAPED_STRING | "true" | "false" | "'" (LETTER | WS ) "'"
+LITERAL: NUMBER | ESCAPED_STRING | "true" | "false" | "'" /./ "'"
 IDENTIFIER: CNAME
 
 

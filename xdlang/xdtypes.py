@@ -54,7 +54,7 @@ class XDType(Enum):
                 return XDType.INT
             case "float":
                 return XDType.FLOAT
-            case "boolean":
+            case "bool":
                 return XDType.BOOL
             case "char":
                 return XDType.CHAR
