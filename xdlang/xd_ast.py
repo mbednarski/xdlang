@@ -15,7 +15,23 @@ class Node:
         pass
 
 
-class LiteralNode(Node):
+class ExprNode(Node):
+    def __init__(self, line: int, column: int) -> None:
+        super().__init__(line, column)
+
+    def accept(self, visitor):
+        return visitor.visit_expr(self)
+
+
+class StmtNode(Node):
+    def __init__(self, line: int, column: int) -> None:
+        super().__init__(line, column)
+
+    def accept(self, visitor):
+        return visitor.visit_stmt(self)
+
+
+class LiteralNode(ExprNode):
     def __init__(self, line: int, column: int, type: XDType, value: Any):
         super().__init__(line, column)
         self.value = value
@@ -94,9 +110,15 @@ class ProgramNode(Node):
         self.block = block
 
 
-class NoopStmtNode(Node):
+class NoopStmtNode(StmtNode):
     def __init__(self, line: int, column: int) -> None:
         super().__init__(line, column)
+
+
+class ReturnStmtNode(StmtNode):
+    def __init__(self, line: int, column: int, expr: ExprNode) -> None:
+        super().__init__(line, column)
+        self.expr = expr
 
     # def __str__(self):
     #     return f"{self.line}:{self.column} BinaryNode:{self.operator}"

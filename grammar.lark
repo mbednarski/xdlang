@@ -14,7 +14,7 @@ let_stmt: "let" IDENTIFIER IDENTIFIER "=" expr ";"
 mut_stmt: "mut" IDENTIFIER "=" expr ";"
 print_stmt: "PRINT" expr ";"
 !noop_stmt: "NOOP" ";"
-return_stmt: "return" expr ";"
+!return_stmt: "return" expr ";"
 
 !?sum: product
         | sum "+" product
@@ -32,21 +32,6 @@ return_stmt: "return" expr ";"
 
 
 
-// sum: sum "+" term
-//     | sum "-" term
-//     | term
-
-// term:
-//     | term "*" factor
-//     | term "/" factor
-//     | term "%" factor
-//     | factor
-
-// factor:
-//     | "+" factor
-//     | "-" factor
-//     | LITERAL
-//     | IDENTIFIER
 
 expr: sum | LITERAL
 

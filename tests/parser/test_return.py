@@ -21,5 +21,5 @@ def parse_stmt(text):
 def test_return_stmt(text, value):
     parsed = parse_stmt(text)
     assert parsed.data.value == "return_stmt"
-    assert parsed.children[0].children[0].type == "LITERAL"
-    assert parsed.children[0].children[0].value == value
+    assert parsed.children[1].children[0].type == "LITERAL"
+    assert parsed.children[1].children[0].value == value
