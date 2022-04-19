@@ -63,6 +63,9 @@ class XDTransformer(Transformer):
             items[2],
         )
 
+    def noop_stmt(self, items):
+        return xd_ast.NoopStmtNode(items[0].line, items[0].column)
+
     def block(slf, items):
         # TODO: empty stmt
         statements = items[1:-1]

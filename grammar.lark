@@ -13,7 +13,7 @@ IDENTIFIER: CNAME
 let_stmt: "let" IDENTIFIER IDENTIFIER "=" expr ";"
 mut_stmt: "mut" IDENTIFIER "=" expr ";"
 print_stmt: "PRINT" expr ";"
-noop_stmt: "NOOP" ";"
+!noop_stmt: "NOOP" ";"
 return_stmt: "return" expr ";"
 
 !?sum: product

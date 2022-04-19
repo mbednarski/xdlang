@@ -93,6 +93,11 @@ class ProgramNode(Node):
         super().__init__(line, column)
         self.block = block
 
+
+class NoopStmtNode(Node):
+    def __init__(self, line: int, column: int) -> None:
+        super().__init__(line, column)
+
     # def __str__(self):
     #     return f"{self.line}:{self.column} BinaryNode:{self.operator}"
 
