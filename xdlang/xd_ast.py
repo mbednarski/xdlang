@@ -62,9 +62,9 @@ class BinaryNode(Node):
 
 
 class UnaryNegNode(Node):
-    def __init__(self, line: int, column: int, operand: Node):
+    def __init__(self, line: int, column: int, expr: Node):
         super().__init__(line, column)
-        self.operand = operand
+        self.expr = expr
 
     def accept(self, visitor):
         return visitor.visit_unary_neg(self)

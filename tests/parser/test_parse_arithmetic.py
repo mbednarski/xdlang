@@ -10,7 +10,6 @@ def parse_expr(text):
 
 
 # fmt: off
-
 @pytest.mark.parametrize("text,lhs,op,rhs",
 [
     ("42 + 7", '42', '+', '7'),
