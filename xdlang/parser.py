@@ -17,7 +17,7 @@ class XDTransformer(Transformer):
         type, value = xdtypes.XDType.infer_from_literal(item.value)
         return xd_ast.LiteralNode(item.line, item.column, type, value)
 
-    def product(self, items: list[xd_ast.Node | Token]):
+    def prod_expr(self, items: list[xd_ast.Node | Token]):
         assert len(items) == 3
         assert isinstance(items[0], xd_ast.Node)
         assert isinstance(items[1], Token)
@@ -26,7 +26,7 @@ class XDTransformer(Transformer):
             items[1].line, items[1].column, items[0], items[1].value, items[2]
         )
 
-    def sum(self, items: list[xd_ast.Node | Token]):
+    def sum_expr(self, items: list[xd_ast.Node | Token]):
         assert len(items) == 3
         assert isinstance(items[0], xd_ast.Node)
         assert isinstance(items[1], Token)
@@ -35,7 +35,7 @@ class XDTransformer(Transformer):
             items[1].line, items[1].column, items[0], items[1].value, items[2]
         )
 
-    def unary_neg(self, items: list[xd_ast.Node]):
+    def unary_minus(self, items: list[xd_ast.Node]):
         return xd_ast.UnaryNegNode(items[0].line, items[0].line, items[0])
 
     def expr(self, items: list[Token]):

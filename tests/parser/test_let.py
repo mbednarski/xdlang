@@ -20,6 +20,7 @@ def parse_let_stmt(text):
 )
 def test_let_stmt(text, type, identifier, value):
     parsed = parse_let_stmt(text)
+    print(parsed.pretty())
     assert parsed.children[0].type == "IDENTIFIER"
     assert parsed.children[0].value == type
     assert parsed.children[1].type == "IDENTIFIER"

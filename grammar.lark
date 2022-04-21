@@ -16,26 +16,22 @@ print_stmt: "PRINT" expr ";"
 !noop_stmt: "NOOP" ";"
 !return_stmt: "return" expr ";"
 
-!?sum: product
-        | sum "+" product
-        | sum "-" product
+!?sum_expr:  sum_expr "+" prod_expr
+        | sum_expr "-" prod_expr
+        | prod_expr
 
-!?product: atom
-    | product "*" atom
-    | product "/" atom
-    | product "%" atom
+!?prod_expr: prod_expr "*" primary
+    | prod_expr "/" primary
+    | prod_expr "%" primary
+    | primary
 
-?atom: LITERAL
-        | "-" atom  -> unary_neg
+?primary: LITERAL
+        | "-" primary  -> unary_minus
+        | "!" primary  -> unary_negation
         | IDENTIFIER -> read_var
-        | "(" sum ")"
+        | "(" sum_expr ")"
 
-
-
-
-expr: sum | LITERAL
-
-// sum: product "+" product | expr "-" expr
+!expr: sum_expr | LITERAL
 
 
 ?statement: print_stmt | let_stmt | mut_stmt | noop_stmt | return_stmt
@@ -45,30 +41,3 @@ program: block
 
 
 %ignore WS
-
-// expr: LITERAL
-//       | IDENTIFIER
-//       | expr BINARY_OPERATOR expr
-//       | UNARY_OPERATOR expr
-
-// let_stmt: "let" TYPE_IDENTIFIER IDENTIFIER "=" expr ";"
-// mut_stmt: "mut" IDENTIFIER "=" expr ";"
-
-// putchar_stmt: "PUTCHAR" expr ";"
-
-// while_stmt: "while" expr block
-
-// ?stmt: let_stmt | putchar_stmt | mut_stmt | if_stmt | while_stmt
-// block: "{" stmt+ "}"
-
-// if_stmt: "if" expr block ["else" block]
-
-
-// program: block
-// LITERAL: SIGNED_NUMBER | ESCAPED_STRING | "true" | "false"
-// IDENTIFIER: CNAME
-// TYPE_IDENTIFIER: CNAME
-// BINARY_OPERATOR: "+" | "-" | "*" | "/" | "and" | "or" | "==" | "!=" | "<" | ">" | "<=" | ">="
-// UNARY_OPERATOR: "-" | "not"
-
-// %ignore WS

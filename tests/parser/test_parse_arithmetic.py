@@ -43,7 +43,7 @@ def test_operator_priority_arithmetic():
     assert outer_expr.children[1].type == "PLUS"
     assert outer_expr.children[1].value == "+"
     inner_expr = outer_expr.children[2]
-    assert inner_expr.data.value == "product"
+    assert inner_expr.data.value == "prod_expr"
     assert inner_expr.children[0].type == "LITERAL"
     assert inner_expr.children[0].value == "7"
     assert inner_expr.children[1].type == "STAR"
@@ -62,7 +62,7 @@ def test_parenthesis_arithmetic():
     assert outer_expr.children[2].type == "LITERAL"
     assert outer_expr.children[2].value == "3"
     inner_expr = outer_expr.children[0]
-    assert inner_expr.data.value == "sum"
+    assert inner_expr.data.value == "sum_expr"
     assert inner_expr.children[0].type == "LITERAL"
     assert inner_expr.children[0].value == "42"
     assert inner_expr.children[1].type == "MINUS"
@@ -75,7 +75,7 @@ def test_unary_arithmetic():
     text = "-42"
     parsed = parse_expr(text)
     assert parsed.data.value == "expr"
-    assert parsed.children[0].data == "unary_neg"
+    assert parsed.children[0].data == "unary_minus"
     assert parsed.children[0].children[0].type == "LITERAL"
     assert parsed.children[0].children[0].value == "42"
 
@@ -84,7 +84,7 @@ def test_double_minus():
     text = "--42"
     parsed = parse_expr(text)
     assert parsed.data.value == "expr"
-    assert parsed.children[0].data == "unary_neg"
-    assert parsed.children[0].children[0].data == "unary_neg"
+    assert parsed.children[0].data == "unary_minus"
+    assert parsed.children[0].children[0].data == "unary_minus"
     assert parsed.children[0].children[0].children[0].type == "LITERAL"
     assert parsed.children[0].children[0].children[0].value == "42"
