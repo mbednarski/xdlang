@@ -20,4 +20,4 @@ Statements:
 1. Variable definition: `let TYPE NAME = EXPRESSION;`
 2. Assignment: `NAME = EXPRESSION;`
 3. Return: `return EXPRESSION;`
-4. Empty statement `NOOP;`
+4. Empty statement `noop;`

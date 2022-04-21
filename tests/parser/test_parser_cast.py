@@ -12,10 +12,10 @@ def parse_expr(text):
 @pytest.mark.parametrize(
     "text,target_type,value",
     [
-        ("CAST<int> 0.0", "int", "0.0"),
-        ("CAST<float> 0", "float", "0"),
-        ("CAST<char> 48", "char", "48"),
-        ("CAST<bool> 7", "bool", "7"),
+        ("cast<int> 0.0", "int", "0.0"),
+        ("cast<float> 0", "float", "0"),
+        ("cast<char> 48", "char", "48"),
+        ("cast<bool> 7", "bool", "7"),
     ],
 )
 def test_cast_expr(text, target_type, value):

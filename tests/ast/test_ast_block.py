@@ -13,7 +13,7 @@ def parse_and_transform_stmt(program_text: str):
 
 def test_block():
     text = """{
-NOOP;
+noop;
 let int x = -17;
 return 0;
 }"""

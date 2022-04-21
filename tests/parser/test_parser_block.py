@@ -9,9 +9,9 @@ def parse_block(text):
 
 def test_int_literal():
     text = """{
-NOOP;
-NOOP;
-NOOP;
+noop;
+noop;
+noop;
 }"""
     parsed = parse_block(text)
     print(parsed.children[1])

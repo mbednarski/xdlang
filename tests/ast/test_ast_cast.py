@@ -15,10 +15,10 @@ def parse_and_transform_expr(program_text: str):
 @pytest.mark.parametrize(
     "text,target_type",
     [
-        ("CAST<int> 17.4", XDType.INT),
-        ("CAST<float> -3", XDType.FLOAT),
-        ("CAST<char> 68", XDType.CHAR),
-        ("CAST<bool> (17.4 - 3)", XDType.BOOL),
+        ("cast<int> 17.4", XDType.INT),
+        ("cast<float> -3", XDType.FLOAT),
+        ("cast<char> 68", XDType.CHAR),
+        ("cast<bool> (17.4 - 3)", XDType.BOOL),
     ],
 )
 # fmt: on

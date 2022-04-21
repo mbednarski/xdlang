@@ -10,5 +10,5 @@ def parse_stmt(text):
 
 
 def test_noop_stmt():
-    parsed = parse_stmt("NOOP;")
+    parsed = parse_stmt("noop;")
     assert parsed.data.value == "noop_stmt"

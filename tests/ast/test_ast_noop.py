@@ -12,5 +12,5 @@ def parse_and_transform_stmt(program_text: str):
 
 
 def test_noop_stmt():
-    ast = parse_and_transform_stmt("NOOP;")
+    ast = parse_and_transform_stmt("noop;")
     assert isinstance(ast, xd_ast.NoopStmtNode)

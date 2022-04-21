@@ -12,8 +12,8 @@ IDENTIFIER: CNAME
 
 let_stmt: "let" IDENTIFIER IDENTIFIER "=" expr ";"
 mut_stmt: "mut" IDENTIFIER "=" expr ";"
-print_stmt: "PRINT" expr ";"
-!noop_stmt: "NOOP" ";"
+print_stmt: "print" expr ";"
+!noop_stmt: "noop" ";"
 !return_stmt: "return" expr ";"
 
 !?sum_expr:  sum_expr "+" prod_expr
@@ -25,7 +25,7 @@ print_stmt: "PRINT" expr ";"
     | prod_expr "%" cast_expr
     | cast_expr
 
-?cast_expr: "CAST<" IDENTIFIER ">" primary
+?cast_expr: "cast<" IDENTIFIER ">" primary
         | primary
 
 ?primary: LITERAL
