@@ -82,7 +82,7 @@ class ReadVarNode(Node):
         return f"read {self.identifier}"
 
 
-class LetStmtNode(Node):
+class LetStmtNode(StmtNode):
     def __init__(
         self, line: int, column: int, type: XDType, identifier: str, expr: Node
     ) -> None:
