@@ -10,6 +10,7 @@ from rich import print as rprint
 
 import xdlang.xd_ast as xd_ast
 import xdlang.xdtypes as xdtypes
+from xdlang.xdtypes import XDType
 
 
 class XDTransformer(Transformer):
@@ -43,6 +44,12 @@ class XDTransformer(Transformer):
         assert isinstance(items[0], xd_ast.Node)
 
         return items[0]
+
+    def cast_expr(self, items):
+        assert len(items) == 2
+
+        target_type = XDType.from_typename(items[0])
+        return xd_ast.CastNode(items[0].line, items[0].column, target_type, items[1])
 
     def read_var(self, items: List[Token]):
         assert len(items) == 1

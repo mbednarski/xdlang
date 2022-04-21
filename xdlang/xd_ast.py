@@ -23,6 +23,18 @@ class ExprNode(Node):
         return visitor.visit_expr(self)
 
 
+class CastNode(ExprNode):
+    def __init__(
+        self, line: int, column: int, target_type: XDType, expr: ExprNode
+    ) -> None:
+        super().__init__(line, column)
+        self.target_type = target_type
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visit_cast(self)
+
+
 class StmtNode(Node):
     def __init__(self, line: int, column: int) -> None:
         super().__init__(line, column)
@@ -47,7 +59,7 @@ class LiteralNode(ExprNode):
     #     return f"{self.line}:{self.column} LiteralNode of type {self.type} and value {self.value}"
 
 
-class BinaryNode(Node):
+class BinaryNode(ExprNode):
     def __init__(self, line: int, column: int, lhs: Node, operator: str, rhs: Node):
         super().__init__(line, column)
         self.lhs = lhs
@@ -61,7 +73,7 @@ class BinaryNode(Node):
         return f"Binary {self.operator}"
 
 
-class UnaryNegNode(Node):
+class UnaryNegNode(ExprNode):
     def __init__(self, line: int, column: int, expr: Node):
         super().__init__(line, column)
         self.expr = expr

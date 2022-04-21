@@ -20,10 +20,13 @@ print_stmt: "PRINT" expr ";"
         | sum_expr "-" prod_expr
         | prod_expr
 
-!?prod_expr: prod_expr "*" primary
-    | prod_expr "/" primary
-    | prod_expr "%" primary
-    | primary
+!?prod_expr: prod_expr "*" cast_expr
+    | prod_expr "/" cast_expr
+    | prod_expr "%" cast_expr
+    | cast_expr
+
+?cast_expr: "CAST<" IDENTIFIER ">" primary
+        | primary
 
 ?primary: LITERAL
         | "-" primary  -> unary_minus
