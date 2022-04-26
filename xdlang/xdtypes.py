@@ -34,6 +34,13 @@ class XDType(Enum):
             case _:
                 raise TypeError(f"Unknown type: {self}")
 
+    def can_be_promoted_to(self, target: "XDType") -> bool:
+        match (self, target):
+            case (XDType.INT, XDType.FLOAT):
+                return True
+            case _:
+                return False
+
     def get_ir_type(self) -> ir.Type:
         match self:
             case XDType.INT:

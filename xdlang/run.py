@@ -5,8 +5,9 @@ import xdlang.xdtypes as xdtypes
 
 # from xdlang.codegen import LlvmCodeGenerator
 from xdlang.parser import parse_text, transform_parse_tree
+from xdlang.type_check import TypeChecker
 
-with open("test_programs/scopes.xd", "rt") as f:
+with open("test_programs/type_check.xd", "rt") as f:
     program_text = f.read()
 
 tree = parse_text(program_text)
@@ -27,6 +28,9 @@ printer.print()
 
 symbol_table = SymbolTable()
 symbol_table.visit_program(ast)
+
+type_checker = TypeChecker()
+type_checker.visit_program(ast)
 
 pass
 

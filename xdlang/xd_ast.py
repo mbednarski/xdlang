@@ -30,6 +30,7 @@ class CastNode(ExprNode):
         super().__init__(line, column)
         self.target_type = target_type
         self.expr = expr
+        self.type = target_type
 
     def accept(self, visitor):
         return visitor.visit_cast(self)
