@@ -35,5 +35,8 @@ class AstPrinter:
     def visit_program(self, node: xd_ast.ProgramNode):
         self.visit_block(node.block)
 
+    def visit_mut_stmt(self, node: xd_ast.MutStmtNode):
+        pass
+
     def print(self):
         rprint(self.branch_stack[0])

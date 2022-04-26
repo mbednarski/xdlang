@@ -1,0 +1,7 @@
+{
+    let int x = 0;
+    let float y = 0;
+
+    mut x = 1;
+    mut z = 'a';
+}

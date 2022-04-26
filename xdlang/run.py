@@ -6,7 +6,7 @@ import xdlang.xdtypes as xdtypes
 # from xdlang.codegen import LlvmCodeGenerator
 from xdlang.parser import parse_text, transform_parse_tree
 
-with open("test_programs/infix.xd", "rt") as f:
+with open("test_programs/scopes.xd", "rt") as f:
     program_text = f.read()
 
 tree = parse_text(program_text)
@@ -15,13 +15,20 @@ rprint(tree)
 ast = transform_parse_tree(tree)
 rprint(ast)
 
+
 from xd_ast_printer import AstPrinter
+
+from xdlang.symbol_table import SymbolTable
 
 printer = AstPrinter()
 printer.visit_program(ast)
 
 printer.print()
 
+symbol_table = SymbolTable()
+symbol_table.visit_program(ast)
+
+pass
 
 # code_generator = LlvmCodeGenerator()
 # code_generator.generate_runtime()
