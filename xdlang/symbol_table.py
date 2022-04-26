@@ -66,6 +66,12 @@ class SymbolTable:
         )
         node.symbol = symbol
 
+    def visit_noop_stmt(self, node: xd_ast.NoopStmtNode):
+        pass
+
+    def visit_return_stmt(self, node: xd_ast.NoopStmtNode):
+        pass
+
     def visit_mut_stmt(self, node: xd_ast.MutStmtNode):
         symbol = self.get_symbol(node.identifier, self.scopes[-1])
         node.symbol = symbol

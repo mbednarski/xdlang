@@ -137,11 +137,20 @@ class NoopStmtNode(StmtNode):
     def __init__(self, line: int, column: int) -> None:
         super().__init__(line, column)
 
+    def accept(self, visitor):
+        return visitor.visit_noop_stmt(self)
+
+    def __str__(self) -> str:
+        return "noop"
+
 
 class ReturnStmtNode(StmtNode):
     def __init__(self, line: int, column: int, expr: ExprNode) -> None:
         super().__init__(line, column)
         self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visit_return_stmt(self)
 
     # def __str__(self):
     #     return f"{self.line}:{self.column} BinaryNode:{self.operator}"

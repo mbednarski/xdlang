@@ -17,9 +17,8 @@ ast = transform_parse_tree(tree)
 rprint(ast)
 
 
-from xd_ast_printer import AstPrinter
-
 from xdlang.symbol_table import SymbolTable
+from xdlang.visitors.xd_ast_printer import AstPrinter
 
 printer = AstPrinter()
 printer.visit_program(ast)
@@ -31,6 +30,11 @@ symbol_table.visit_program(ast)
 
 type_checker = TypeChecker()
 type_checker.visit_program(ast)
+
+printer = AstPrinter()
+printer.visit_program(ast)
+
+printer.print()
 
 pass
 

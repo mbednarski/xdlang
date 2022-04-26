@@ -1,3 +1,5 @@
 {
-    let int x = 17 / 32 + 5 - 0;
+    let int x = cast<int>(17 / 32 + 5 - cast<float>0);
+    noop;
+    return (78 + 3.0) - (4.78 * -2);
 }

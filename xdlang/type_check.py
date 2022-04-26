@@ -40,7 +40,10 @@ class TypeChecker:
         node.type = node.lhs.type
 
     def visit_unary_neg(self, node: xd_ast.UnaryNegNode):
-        pass
+        node.expr.accept(self)
+        node.type = node.expr.type
+        # if node.expr.type != xd_ast.Type.INT:
+        #     raise TypeError(node.line, node.column, node.expr.type, xd_ast.Type.INT)
 
     def visit_read_var(self, node: xd_ast.ReadVarNode):
         pass
@@ -67,4 +70,4 @@ class TypeChecker:
         pass
 
     def visit_return_stmt(self, node: xd_ast.ReturnStmtNode):
-        pass
+        node.expr.accept(self)

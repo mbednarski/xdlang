@@ -36,7 +36,37 @@ class AstPrinter:
         self.visit_block(node.block)
 
     def visit_mut_stmt(self, node: xd_ast.MutStmtNode):
-        pass
+        branch = self.branch_stack[-1].add(f"mut {node.identifier}")
+        self.branch_stack.append(branch)
+        node.expr.accept(self)
+        self.branch_stack.pop()
 
     def print(self):
         rprint(self.branch_stack[0])
+
+    def visit_expr(self, node: xd_ast.ExprNode):
+        pass
+
+    def visit_cast(self, node: xd_ast.CastNode):
+        branch = self.branch_stack[-1].add(f"Cast<{node.target_type}>")
+        self.branch_stack.append(branch)
+        node.expr.accept(self)
+        self.branch_stack.pop()
+
+    def visit_stmt(self, node: xd_ast.StmtNode):
+        assert False, f"Unhandled StmtNode: {node}"
+
+    def visit_unary_neg(self, node: xd_ast.UnaryNegNode):
+        branch = self.branch_stack[-1].add(f"Unary -")
+        self.branch_stack.append(branch)
+        node.expr.accept(self)
+        self.branch_stack.pop()
+
+    def visit_noop_stmt(self, node: xd_ast.NoopStmtNode):
+        self.branch_stack[-1].add(str(node))
+
+    def visit_return_stmt(self, node: xd_ast.ReturnStmtNode):
+        branch = self.branch_stack[-1].add(f"Return")
+        self.branch_stack.append(branch)
+        node.expr.accept(self)
+        self.branch_stack.pop()
