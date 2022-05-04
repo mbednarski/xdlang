@@ -7,7 +7,9 @@ class TypeChecker:
         node.accept(self)
 
     def visit_cast(self, node: xd_ast.CastNode):
-        pass
+        node.expr.accept(self)
+        # TODO: check legal casts
+        node.type = node.target_type
 
     def visit_stmt(self, node: xd_ast.StmtNode):
         pass
@@ -46,7 +48,7 @@ class TypeChecker:
         #     raise TypeError(node.line, node.column, node.expr.type, xd_ast.Type.INT)
 
     def visit_read_var(self, node: xd_ast.ReadVarNode):
-        pass
+        node.type = node.symbol.type
 
     def visit_let_stmt(self, node: xd_ast.LetStmtNode):
         node.expr.accept(self)

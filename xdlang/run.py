@@ -6,14 +6,16 @@ import xdlang.xdtypes as xdtypes
 # from xdlang.codegen import LlvmCodeGenerator
 from xdlang.parser import parse_text, transform_parse_tree
 from xdlang.type_check import TypeChecker
+from xdlang.visitors.code_generator import CodeGenerator
+from xdlang.xd_ast import ProgramNode
 
-with open("test_programs/type_check.xd", "rt") as f:
+with open("test_programs/simple_return.xd", "rt") as f:
     program_text = f.read()
 
 tree = parse_text(program_text)
 rprint(tree)
 
-ast = transform_parse_tree(tree)
+ast: ProgramNode = transform_parse_tree(tree)
 rprint(ast)
 
 
@@ -35,6 +37,14 @@ printer = AstPrinter()
 printer.visit_program(ast)
 
 printer.print()
+
+codegen = CodeGenerator()
+codegen.visit_program(ast)
+
+print(codegen.get_ir())
+
+with open("out.ir", "wt") as f:
+    f.write(codegen.get_ir())
 
 pass
 

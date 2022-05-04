@@ -52,4 +52,4 @@ def generate_visitor(path: Optional[Path] = None):
 
 
 if __name__ == "__main__":
-    generate_visitor(Path("xdlang/visitors/xd_ast_printer.py"))
+    generate_visitor(Path("xdlang/symbol_table.py"))

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import Any, List, Optional
 
 from xdlang import xd_ast
 
@@ -10,6 +10,7 @@ from .xdtypes import XDType
 class Symbol:
     type: XDType
     identifier: str
+    var: Optional[Any] = None
 
 
 @dataclass
@@ -69,8 +70,8 @@ class SymbolTable:
     def visit_noop_stmt(self, node: xd_ast.NoopStmtNode):
         pass
 
-    def visit_return_stmt(self, node: xd_ast.NoopStmtNode):
-        pass
+    def visit_return_stmt(self, node: xd_ast.ReturnStmtNode):
+        node.expr.accept(self)
 
     def visit_mut_stmt(self, node: xd_ast.MutStmtNode):
         symbol = self.get_symbol(node.identifier, self.scopes[-1])
@@ -79,3 +80,9 @@ class SymbolTable:
     def visit_read_var(self, node: xd_ast.ReadVarNode):
         symbol = self.get_symbol(node.identifier, self.scopes[-1])
         node.symbol = symbol
+
+    def visit_cast(self, node: xd_ast.CastNode):
+        node.expr.accept(self)
+
+    def visit_unary_neg(self, node: xd_ast.UnaryNegNode):
+        node.expr.accept(self)
