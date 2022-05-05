@@ -13,6 +13,17 @@
             "justMyCode": true
         },
         {
+            "name": "XD Run",
+            "type": "python",
+            "request": "launch",
+            "program": "xdlang/cli.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "test_programs/simple_return.xd"
+            ]
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
