@@ -127,6 +127,23 @@ class BlockNode(Node):
         return visitor.visit_block(self)
 
 
+class FuncNode(Node):
+    def __init__(
+        self,
+        line: int,
+        column: int,
+        identifier: str,
+        args: List[Any],
+        type: XDType,
+        body: BlockNode,
+    ) -> None:
+        super().__init__(line, column)
+        self.identifier = identifier
+        self.args = args
+        self.type = type
+        self.body = body
+
+
 class ProgramNode(Node):
     def __init__(self, line: int, column: int, block: BlockNode) -> None:
         super().__init__(line, column)

@@ -2,6 +2,7 @@ from pathlib import Path
 
 from llvmlite import ir
 from rich import print as rprint
+from rich.panel import Panel
 
 import xdlang.xdtypes as xdtypes
 
@@ -26,13 +27,16 @@ class Compiler:
             program_text = f.read()
 
         parse_tree = parse_text(program_text)
-        ast_tree = transform_parse_tree(parse_tree)
-        self.symbol_table.visit_program(ast_tree)
-        self.type_checker.visit_program(ast_tree)
-        self.code_generator.visit_program(ast_tree)
 
-        with target_file.open("wt") as f:
-            f.write(self.code_generator.get_ir())
+        rprint(Panel(parse_tree, title="Parse Tree"))
+
+        ast_tree = transform_parse_tree(parse_tree)
+        # self.symbol_table.visit_program(ast_tree)
+        # self.type_checker.visit_program(ast_tree)
+        # self.code_generator.visit_program(ast_tree)
+
+        # with target_file.open("wt") as f:
+        #     f.write(self.code_generator.get_ir())
 
 
 # with open("test_programs/simple_return.xd", "rt") as f:

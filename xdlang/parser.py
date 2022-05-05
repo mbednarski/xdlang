@@ -88,8 +88,20 @@ class XDTransformer(Transformer):
     def mut_stmt(self, items):
         return xd_ast.MutStmtNode(items[0].line, items[0].column, items[0], items[1])
 
+    def func_stmt(self, items: List[Token]):
+        identifier = items[0].value
+        typename = items[-2].value
+        args = []
+        body = items[-1]
+
+        type = XDType.from_typename(typename)
+
+        return xd_ast.FuncNode(
+            items[0].line, items[1].column, identifier, args, type, body
+        )
+
     def __default__(self, data, children, meta):
-        raise ValueError("Unknow node type: {}".format(data))
+        assert False
 
 
 # class XdTransformer(Transformer):

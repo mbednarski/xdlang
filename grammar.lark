@@ -15,6 +15,7 @@ mut_stmt: "mut" IDENTIFIER "=" expr ";"
 print_stmt: "print" expr ";"
 !noop_stmt: "noop" ";"
 !return_stmt: "return" expr ";"
+func_stmt: "fn" IDENTIFIER "("  ")" ":" IDENTIFIER block
 
 !?sum_expr:  sum_expr "+" prod_expr
         | sum_expr "-" prod_expr
@@ -40,7 +41,7 @@ print_stmt: "print" expr ";"
 ?statement: print_stmt | let_stmt | mut_stmt | noop_stmt | return_stmt
 !block: "{" statement* "}"
 
-program: block
+program: func_stmt*
 
 
 %ignore WS
