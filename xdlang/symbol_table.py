@@ -86,3 +86,6 @@ class SymbolTable:
 
     def visit_unary_neg(self, node: xd_ast.UnaryNegNode):
         node.expr.accept(self)
+
+    def visit_literal(self, node: xd_ast.LiteralNode):
+        pass

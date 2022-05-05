@@ -1,4 +1,3 @@
 {
-    let int asdf = -1;
-    return -asdf;
+    return 42;
 }
