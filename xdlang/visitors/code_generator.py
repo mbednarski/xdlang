@@ -1,8 +1,7 @@
 from llvmlite import ir
 
-from xdlang import xd_ast
-from xdlang.symbol_table import Symbol
-from xdlang.xdtypes import XDType, main_fn_t
+from xdlang.structures import XDType, ast, main_fn_t
+from xdlang.visitors.symbol_table import Symbol
 
 
 class CodeGenerator:
@@ -17,10 +16,10 @@ class CodeGenerator:
     def get_ir(self):
         return str(self.module)
 
-    def visit_expr(self, node: xd_ast.ExprNode):
+    def visit_expr(self, node: ast.ExprNode):
         assert False
 
-    def visit_cast(self, node: xd_ast.CastNode):
+    def visit_cast(self, node: ast.CastNode):
         source_type = node.expr.type
         target_type = node.type
 
@@ -33,18 +32,18 @@ class CodeGenerator:
             case _:
                 raise Exception("Unsupported cast")
 
-    def visit_stmt(self, node: xd_ast.StmtNode):
+    def visit_stmt(self, node: ast.StmtNode):
         assert False
 
-    def visit_literal(self, node: xd_ast.LiteralNode):
+    def visit_literal(self, node: ast.LiteralNode):
         ir_type = node.type.get_ir_type()
         value = ir.Constant(ir_type, node.value)
         return value
 
-    def visit_binary(self, node: xd_ast.BinaryNode):
+    def visit_binary(self, node: ast.BinaryNode):
         pass
 
-    def visit_unary_neg(self, node: xd_ast.UnaryNegNode):
+    def visit_unary_neg(self, node: ast.UnaryNegNode):
         match node.type:
             case XDType.FLOAT:
                 return self.builder.fneg(node.expr.accept(self))
@@ -53,33 +52,33 @@ class CodeGenerator:
             case _:
                 assert False
 
-    def visit_read_var(self, node: xd_ast.ReadVarNode):
+    def visit_read_var(self, node: ast.ReadVarNode):
         var = node.symbol.var
         val = self.builder.load(var)
         return val
 
-    def visit_let_stmt(self, node: xd_ast.LetStmtNode):
+    def visit_let_stmt(self, node: ast.LetStmtNode):
         symbol: Symbol = node.symbol
         var = self.builder.alloca(symbol.type.get_ir_type(), 1)
         symbol.var = var
         val = node.expr.accept(self)
         self.builder.store(val, var)
 
-    def visit_mut_stmt(self, node: xd_ast.MutStmtNode):
+    def visit_mut_stmt(self, node: ast.MutStmtNode):
         pass
 
-    def visit_block(self, node: xd_ast.BlockNode):
+    def visit_block(self, node: ast.BlockNode):
         # block = self.current_function.append_basic_block()
         # self.builder.position_at_end(block)
         for stmt in node.statements:
             stmt.accept(self)
 
-    def visit_program(self, node: xd_ast.ProgramNode):
+    def visit_program(self, node: ast.ProgramNode):
         node.block.accept(self)
 
-    def visit_noop_stmt(self, node: xd_ast.NoopStmtNode):
+    def visit_noop_stmt(self, node: ast.NoopStmtNode):
         pass
 
-    def visit_return_stmt(self, node: xd_ast.ReturnStmtNode):
+    def visit_return_stmt(self, node: ast.ReturnStmtNode):
         value = node.expr.accept(self)
         self.builder.ret(value)

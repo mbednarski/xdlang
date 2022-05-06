@@ -3,7 +3,7 @@ from typing import Any, List
 
 import llvmlite.ir as ir
 
-from xdlang.xdtypes import XDType
+from xdlang.structures import XDType
 
 
 class Node:

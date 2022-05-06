@@ -1,9 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, List, Optional
 
-from xdlang import xd_ast
-
-from .xdtypes import XDType
+from xdlang.structures import XDType, ast
 
 
 @dataclass
@@ -51,41 +49,41 @@ class SymbolTable:
             scope = scope.parent
         raise Exception(f"Symbol {identifier} not found")
 
-    def visit_program(self, node: xd_ast.ProgramNode):
+    def visit_program(self, node: ast.ProgramNode):
         self.visit_block(node.block)
 
-    def visit_block(self, node: xd_ast.BlockNode):
+    def visit_block(self, node: ast.BlockNode):
         self.push_scope("block")
         for stmt in node.statements:
             stmt.accept(self)
         self.pop_scope()
 
-    def visit_let_stmt(self, node: xd_ast.LetStmtNode):
+    def visit_let_stmt(self, node: ast.LetStmtNode):
         symbol = Symbol(node.type, node.identifier)
         self.insert_symbol(
             symbol,
         )
         node.symbol = symbol
 
-    def visit_noop_stmt(self, node: xd_ast.NoopStmtNode):
+    def visit_noop_stmt(self, node: ast.NoopStmtNode):
         pass
 
-    def visit_return_stmt(self, node: xd_ast.ReturnStmtNode):
+    def visit_return_stmt(self, node: ast.ReturnStmtNode):
         node.expr.accept(self)
 
-    def visit_mut_stmt(self, node: xd_ast.MutStmtNode):
+    def visit_mut_stmt(self, node: ast.MutStmtNode):
         symbol = self.get_symbol(node.identifier, self.scopes[-1])
         node.symbol = symbol
 
-    def visit_read_var(self, node: xd_ast.ReadVarNode):
+    def visit_read_var(self, node: ast.ReadVarNode):
         symbol = self.get_symbol(node.identifier, self.scopes[-1])
         node.symbol = symbol
 
-    def visit_cast(self, node: xd_ast.CastNode):
+    def visit_cast(self, node: ast.CastNode):
         node.expr.accept(self)
 
-    def visit_unary_neg(self, node: xd_ast.UnaryNegNode):
+    def visit_unary_neg(self, node: ast.UnaryNegNode):
         node.expr.accept(self)
 
-    def visit_literal(self, node: xd_ast.LiteralNode):
+    def visit_literal(self, node: ast.LiteralNode):
         pass

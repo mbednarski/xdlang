@@ -1,28 +1,27 @@
-from xdlang import xd_ast
-from xdlang.errors import TypeError
+from xdlang.structures import TypeError, ast
 
 
 class TypeChecker:
-    def visit_expr(self, node: xd_ast.ExprNode):
+    def visit_expr(self, node: ast.ExprNode):
         node.accept(self)
 
-    def visit_cast(self, node: xd_ast.CastNode):
+    def visit_cast(self, node: ast.CastNode):
         node.expr.accept(self)
         # TODO: check legal casts
         node.type = node.target_type
 
-    def visit_stmt(self, node: xd_ast.StmtNode):
+    def visit_stmt(self, node: ast.StmtNode):
         pass
 
-    def visit_literal(self, node: xd_ast.LiteralNode):
+    def visit_literal(self, node: ast.LiteralNode):
         pass
 
-    def visit_binary(self, node: xd_ast.BinaryNode):
+    def visit_binary(self, node: ast.BinaryNode):
         node.lhs.accept(self)
         node.rhs.accept(self)
         if node.lhs.type != node.rhs.type:
             if node.lhs.type.can_be_promoted_to(node.rhs.type):
-                cast_node = xd_ast.CastNode(
+                cast_node = ast.CastNode(
                     line=node.line,
                     column=node.column,
                     target_type=node.rhs.type,
@@ -30,7 +29,7 @@ class TypeChecker:
                 )
                 node.lhs = cast_node
             elif node.rhs.type.can_be_promoted_to(node.lhs.type):
-                cast_node = xd_ast.CastNode(
+                cast_node = ast.CastNode(
                     line=node.line,
                     column=node.column,
                     target_type=node.lhs.type,
@@ -41,35 +40,35 @@ class TypeChecker:
                 raise TypeError(node.line, node.column, node.lhs.type, node.rhs.type)
         node.type = node.lhs.type
 
-    def visit_unary_neg(self, node: xd_ast.UnaryNegNode):
+    def visit_unary_neg(self, node: ast.UnaryNegNode):
         node.expr.accept(self)
         node.type = node.expr.type
-        # if node.expr.type != xd_ast.Type.INT:
-        #     raise TypeError(node.line, node.column, node.expr.type, xd_ast.Type.INT)
+        # if node.expr.type != ast.Type.INT:
+        #     raise TypeError(node.line, node.column, node.expr.type, ast.Type.INT)
 
-    def visit_read_var(self, node: xd_ast.ReadVarNode):
+    def visit_read_var(self, node: ast.ReadVarNode):
         node.type = node.symbol.type
 
-    def visit_let_stmt(self, node: xd_ast.LetStmtNode):
+    def visit_let_stmt(self, node: ast.LetStmtNode):
         node.expr.accept(self)
         if node.expr.type != node.type:
             raise Exception(f"Type mismatch: {node.expr.type} != {node.type}")
 
-    def visit_mut_stmt(self, node: xd_ast.MutStmtNode):
+    def visit_mut_stmt(self, node: ast.MutStmtNode):
         pass
 
-    def visit_block(self, node: xd_ast.BlockNode):
+    def visit_block(self, node: ast.BlockNode):
         for stmt in node.statements:
             try:
                 stmt.accept(self)
             except TypeError as e:
                 print(e.message())
 
-    def visit_program(self, node: xd_ast.ProgramNode):
+    def visit_program(self, node: ast.ProgramNode):
         node.block.accept(self)
 
-    def visit_noop_stmt(self, node: xd_ast.NoopStmtNode):
+    def visit_noop_stmt(self, node: ast.NoopStmtNode):
         pass
 
-    def visit_return_stmt(self, node: xd_ast.ReturnStmtNode):
+    def visit_return_stmt(self, node: ast.ReturnStmtNode):
         node.expr.accept(self)

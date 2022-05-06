@@ -1,4 +1,4 @@
-from xdlang.xdtypes import XDType
+from xdlang.structures import XDType
 
 
 class XdError(Exception):

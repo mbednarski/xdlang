@@ -8,40 +8,39 @@ from lark.lexer import Token
 from llvmlite import ir
 from rich import print as rprint
 
-import xdlang.xd_ast as xd_ast
-import xdlang.xdtypes as xdtypes
-from xdlang.xdtypes import XDType
+from xdlang.structures import XDType
+from xdlang.structures import ast as ast
 
 
 class XDTransformer(Transformer):
     def LITERAL(self, item: Token):
-        type, value = xdtypes.XDType.infer_from_literal(item.value)
-        return xd_ast.LiteralNode(item.line, item.column, type, value)
+        type, value = XDType.infer_from_literal(item.value)
+        return ast.LiteralNode(item.line, item.column, type, value)
 
-    def prod_expr(self, items: list[xd_ast.Node | Token]):
+    def prod_expr(self, items: list[ast.Node | Token]):
         assert len(items) == 3
-        assert isinstance(items[0], xd_ast.Node)
+        assert isinstance(items[0], ast.Node)
         assert isinstance(items[1], Token)
-        assert isinstance(items[2], xd_ast.Node)
-        return xd_ast.BinaryNode(
+        assert isinstance(items[2], ast.Node)
+        return ast.BinaryNode(
             items[1].line, items[1].column, items[0], items[1].value, items[2]
         )
 
-    def sum_expr(self, items: list[xd_ast.Node | Token]):
+    def sum_expr(self, items: list[ast.Node | Token]):
         assert len(items) == 3
-        assert isinstance(items[0], xd_ast.Node)
+        assert isinstance(items[0], ast.Node)
         assert isinstance(items[1], Token)
-        assert isinstance(items[2], xd_ast.Node)
-        return xd_ast.BinaryNode(
+        assert isinstance(items[2], ast.Node)
+        return ast.BinaryNode(
             items[1].line, items[1].column, items[0], items[1].value, items[2]
         )
 
-    def unary_minus(self, items: list[xd_ast.Node]):
-        return xd_ast.UnaryNegNode(items[0].line, items[0].line, items[0])
+    def unary_minus(self, items: list[ast.Node]):
+        return ast.UnaryNegNode(items[0].line, items[0].line, items[0])
 
     def expr(self, items: list[Token]):
         assert len(items) == 1
-        assert isinstance(items[0], xd_ast.Node)
+        assert isinstance(items[0], ast.Node)
 
         return items[0]
 
@@ -49,44 +48,44 @@ class XDTransformer(Transformer):
         assert len(items) == 2
 
         target_type = XDType.from_typename(items[0])
-        return xd_ast.CastNode(items[0].line, items[0].column, target_type, items[1])
+        return ast.CastNode(items[0].line, items[0].column, target_type, items[1])
 
     def read_var(self, items: List[Token]):
         assert len(items) == 1
         item = items[0]
-        return xd_ast.ReadVarNode(item.line, item.column, item.value)
+        return ast.ReadVarNode(item.line, item.column, item.value)
 
-    def let_stmt(self, items: List[Token | xd_ast.Node]):
+    def let_stmt(self, items: List[Token | ast.Node]):
         assert len(items) == 3
         assert isinstance(items[0], Token)
         assert isinstance(items[1], Token)
-        assert isinstance(items[2], xd_ast.Node)
+        assert isinstance(items[2], ast.Node)
 
-        return xd_ast.LetStmtNode(
+        return ast.LetStmtNode(
             items[0].line,
             items[0].column,
-            xdtypes.XDType.from_typename(items[0].value),
+            XDType.from_typename(items[0].value),
             items[1].value,
             items[2],
         )
 
     def noop_stmt(self, items):
-        return xd_ast.NoopStmtNode(items[0].line, items[0].column)
+        return ast.NoopStmtNode(items[0].line, items[0].column)
 
     def return_stmt(self, items):
-        assert isinstance(items[1], xd_ast.Node)
-        return xd_ast.ReturnStmtNode(items[0].line, items[0].column, items[1])
+        assert isinstance(items[1], ast.Node)
+        return ast.ReturnStmtNode(items[0].line, items[0].column, items[1])
 
     def block(slf, items):
         # TODO: empty stmt
         statements = items[1:-1]
-        return xd_ast.BlockNode(items[0].line, items[0].column, statements)
+        return ast.BlockNode(items[0].line, items[0].column, statements)
 
     def program(self, items):
-        return xd_ast.ProgramNode(0, 0, items[0])
+        return ast.ProgramNode(0, 0, items[0])
 
     def mut_stmt(self, items):
-        return xd_ast.MutStmtNode(items[0].line, items[0].column, items[0], items[1])
+        return ast.MutStmtNode(items[0].line, items[0].column, items[0], items[1])
 
     def func_stmt(self, items: List[Token]):
         identifier = items[0].value
@@ -96,7 +95,7 @@ class XDTransformer(Transformer):
 
         type = XDType.from_typename(typename)
 
-        return xd_ast.FuncNode(
+        return ast.FuncNode(
             items[0].line, items[1].column, identifier, args, type, body
         )
 

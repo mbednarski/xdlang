@@ -4,15 +4,12 @@ from llvmlite import ir
 from rich import print as rprint
 from rich.panel import Panel
 
-import xdlang.xdtypes as xdtypes
-
-# from xdlang.codegen import LlvmCodeGenerator
-from xdlang.parser import parse_text, transform_parse_tree
-from xdlang.symbol_table import SymbolTable
-from xdlang.type_check import TypeChecker
+from xdlang.structures import XDType
 from xdlang.visitors.code_generator import CodeGenerator
+from xdlang.visitors.parser import parse_text, transform_parse_tree
+from xdlang.visitors.symbol_table import SymbolTable
+from xdlang.visitors.type_check import TypeChecker
 from xdlang.visitors.xd_ast_printer import AstPrinter
-from xdlang.xd_ast import ProgramNode
 
 
 class Compiler:
@@ -40,39 +37,3 @@ class Compiler:
 
         # with target_file.open("wt") as f:
         #     f.write(self.code_generator.get_ir())
-
-
-# with open("test_programs/simple_return.xd", "rt") as f:
-#     program_text = f.read()
-
-# tree = parse_text(program_text)
-# rprint(tree)
-
-# ast: ProgramNode = transform_parse_tree(tree)
-# rprint(ast)
-
-
-# printer.visit_program(ast)
-
-# printer.print()
-
-# symbol_table = SymbolTable()
-# symbol_table.visit_program(ast)
-
-# type_checker = TypeChecker()
-# type_checker.visit_program(ast)
-
-# printer = AstPrinter()
-# printer.visit_program(ast)
-
-# printer.print()
-
-# codegen = CodeGenerator()
-# codegen.visit_program(ast)
-
-# print(codegen.get_ir())
-
-# with open("out.ir", "wt") as f:
-#     f.write(codegen.get_ir())
-
-# pass
