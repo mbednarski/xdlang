@@ -1,15 +1,9 @@
 from enum import Enum
 from pprint import pprint
 
-from lark import Lark, Transformer, tree
 from llvmlite import ir
 from llvmlite.ir.types import Type as IRType
 from rich import print as rprint
-
-
-class TypeError(Exception):
-    def __init__(self, *args: object) -> None:
-        super().__init__(*args)
 
 
 class XDType(Enum):

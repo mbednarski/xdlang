@@ -2,9 +2,10 @@ from rich import print as rprint
 from rich.tree import Tree
 
 from xdlang.structures import ast
+from xdlang.visitors.base_visitor import BaseVisitor
 
 
-class AstPrinter:
+class AstPrinter(BaseVisitor):
     def __init__(self) -> None:
         self.branch_stack = [Tree("xd")]
         self.indent = 0
@@ -33,7 +34,7 @@ class AstPrinter:
         for stmt in node.statements:
             stmt.accept(self)
 
-    def visit_func(self, node: ast.FuncNode):
+    def visit_func_definition(self, node: ast.FuncDefinitionNode):
         branch = self.branch_stack[-1].add(
             f"Func {node.identifier}({', '.join(node.args)}) {node.type}"
         )
@@ -42,7 +43,7 @@ class AstPrinter:
         self.branch_stack.pop()
 
     def visit_program(self, node: ast.ProgramNode):
-        self.visit_func(node.block)
+        self.visit_func_definition(node.block)
 
     def visit_mut_stmt(self, node: ast.MutStmtNode):
         branch = self.branch_stack[-1].add(f"mut {node.identifier}")

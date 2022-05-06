@@ -95,7 +95,7 @@ class XDTransformer(Transformer):
 
         type = XDType.from_typename(typename)
 
-        return ast.FuncNode(
+        return ast.FuncDefinitionNode(
             items[0].line, items[1].column, identifier, args, type, body
         )
 

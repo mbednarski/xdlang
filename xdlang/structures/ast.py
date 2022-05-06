@@ -12,7 +12,7 @@ class Node:
         self.column = column
 
     def accept(self, visitor):
-        pass
+        raise NotImplementedError()
 
 
 class ExprNode(Node):
@@ -127,7 +127,7 @@ class BlockNode(Node):
         return visitor.visit_block(self)
 
 
-class FuncNode(Node):
+class FuncDefinitionNode(Node):
     def __init__(
         self,
         line: int,

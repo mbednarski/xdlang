@@ -1,4 +1,4 @@
-from xdlang.structures import XDType
+import xdlang.structures.types as types
 
 
 class XdError(Exception):
@@ -8,7 +8,7 @@ class XdError(Exception):
 
 
 class TypeError(XdError):
-    def __init__(self, line: int, column: int, lhs: XDType, rhs: XDType):
+    def __init__(self, line: int, column: int, lhs: types.XDType, rhs: types.XDType):
         super().__init__(line, column)
         self.lhs = lhs
         self.rhs = rhs
