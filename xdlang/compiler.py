@@ -31,6 +31,9 @@ class Compiler:
         rprint(Panel(parse_tree, title="Parse Tree"))
 
         ast_tree = transform_parse_tree(parse_tree)
+        self.ast_printer.visit_program(ast_tree)
+        rprint(Panel(self.ast_printer.branch_stack[0], title="AST Tree"))
+
         # self.symbol_table.visit_program(ast_tree)
         # self.type_checker.visit_program(ast_tree)
         # self.code_generator.visit_program(ast_tree)

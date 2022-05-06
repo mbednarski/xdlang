@@ -32,8 +32,16 @@ class AstPrinter:
         for stmt in node.statements:
             stmt.accept(self)
 
+    def visit_func(self, node: xd_ast.FuncNode):
+        branch = self.branch_stack[-1].add(
+            f"Func {node.identifier}({', '.join(node.args)}) {node.type}"
+        )
+        self.branch_stack.append(branch)
+        node.body.accept(self)
+        self.branch_stack.pop()
+
     def visit_program(self, node: xd_ast.ProgramNode):
-        self.visit_block(node.block)
+        self.visit_func(node.block)
 
     def visit_mut_stmt(self, node: xd_ast.MutStmtNode):
         branch = self.branch_stack[-1].add(f"mut {node.identifier}")
