@@ -104,58 +104,6 @@ class XDTransformer(Transformer):
         assert False
 
 
-# class XdTransformer(Transformer):
-
-
-# def LITERAL(self, item):
-#     return xdast.LiteralNode(type_, value)
-
-# def IDENTIFIER(self, i):
-#     return str(i)
-
-# def block(self, items):
-#     return xdast.BlockNode(items)
-
-# def program(self, items):
-#     return xdast.ProgramNode(items)
-
-# def if_stmt(self, items):
-#     return xdast.IfStmtNode(items[0], items[1], items[2])
-
-# def let_stmt(self, items):
-#     type_ = xdtypes.XDType.from_typename(items[0])
-#     identifier = items[1]
-#     expr = items[2]
-#     return xdast.LetStmtNode(type_, identifier, expr)
-
-# def mut_stmt(self, items):
-#     identifier = items[0]
-#     expr = items[1]
-#     return xdast.MutStmtNode(identifier, expr)
-
-# def print_stmt(self, items):
-#     return xdast.PrintStmtNode(items[0])
-
-# def print_nl_stmt(self, items):
-#     return xdast.PrintNlNode()
-
-# def putchar_stmt(self, items):
-#     return xdast.PutcharStmtNode(items[0])
-
-# def while_stmt(self, items):
-#     return xdast.WhileStmtNode(items[0], items[1])
-
-# def expr(self, items):
-#     if len(items) == 1 and type(items[0]) is xdast.LiteralNode:
-#         return items[0]
-#     elif len(items) == 1 and type(items[0]) is str:
-#         return xdast.GetVariableNode(items[0])
-#     elif len(items) == 3:
-#         return xdast.BinaryOpNode(items[0], items[1], items[2])
-#     else:
-#         raise ValueError(f"Invalid expr: {items}")
-
-
 def parse_text(program_text: str, start="program") -> ParseTree:
     with open("grammar.lark", "rt") as f:
         grammar_text = f.read()
