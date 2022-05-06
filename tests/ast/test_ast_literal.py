@@ -1,8 +1,7 @@
 import pytest
 
-from xdlang import xd_ast
-from xdlang.parser import parse_text, transform_parse_tree
-from xdlang.xdtypes import XDType
+from xdlang.structures import XDType, ast
+from xdlang.visitors.parser import parse_text, transform_parse_tree
 
 
 def parse_and_transform_expr(program_text: str):
@@ -21,8 +20,8 @@ def parse_and_transform_expr(program_text: str):
         ("true", XDType.BOOL, True),
     ],
 )
-def test_int(text, type, value):
-    ast = parse_and_transform_expr(text)
-    assert isinstance(ast, xd_ast.LiteralNode)
-    assert ast.type == type
-    assert ast.value == value
+def test_literal(text, type, value):
+    node: ast.LiteralNode = parse_and_transform_expr(text)
+    assert isinstance(node, ast.LiteralNode)
+    assert node.type == type
+    assert node.value == value

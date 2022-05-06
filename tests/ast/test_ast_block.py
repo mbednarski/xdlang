@@ -1,8 +1,7 @@
 import pytest
 
-from xdlang import xd_ast
-from xdlang.parser import parse_text, transform_parse_tree
-from xdlang.xdtypes import XDType
+from xdlang.structures import ast
+from xdlang.visitors.parser import parse_text, transform_parse_tree
 
 
 def parse_and_transform_stmt(program_text: str):
@@ -13,10 +12,11 @@ def parse_and_transform_stmt(program_text: str):
 
 def test_block():
     text = """{
-noop;
-let int x = -17;
 return 0;
+return 1;
+return 2;
 }"""
-    ast = parse_and_transform_stmt(text)
-    assert isinstance(ast, xd_ast.BlockNode)
-    assert all([isinstance(s, xd_ast.StmtNode) for s in ast.statements])
+    node: ast.BlockNode = parse_and_transform_stmt(text)
+    assert isinstance(node, ast.BlockNode)
+    assert all([isinstance(s, ast.StmtNode) for s in node.statements])
+    assert len(node.statements) == 3

@@ -1,8 +1,7 @@
 import pytest
 
-from xdlang import xd_ast
-from xdlang.parser import parse_text, transform_parse_tree
-from xdlang.xdtypes import XDType
+from xdlang.structures import XDType, ast
+from xdlang.visitors.parser import parse_text, transform_parse_tree
 
 
 def parse_and_transform_stmt(program_text: str):
@@ -16,6 +15,6 @@ def parse_and_transform_stmt(program_text: str):
     ["return 42;", "return 17.00;", "return 'Q';", "return false;", "return true;"],
 )
 def test_return(text):
-    ast = parse_and_transform_stmt(text)
-    assert isinstance(ast, xd_ast.ReturnStmtNode)
-    assert isinstance(ast.expr, xd_ast.ExprNode)
+    node: ast.ReturnStmtNode = parse_and_transform_stmt(text)
+    assert isinstance(node, ast.ReturnStmtNode)
+    assert isinstance(node.expr, ast.ExprNode)
