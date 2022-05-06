@@ -43,7 +43,11 @@ class AstPrinter(BaseVisitor):
         self.branch_stack.pop()
 
     def visit_program(self, node: ast.ProgramNode):
-        self.visit_func_definition(node.block)
+        branch = self.branch_stack[-1].add(f"Program")
+        self.branch_stack.append(branch)
+        for f in node.functions:
+            self.visit_func_definition(f)
+        self.branch_stack.pop()
 
     def visit_mut_stmt(self, node: ast.MutStmtNode):
         branch = self.branch_stack[-1].add(f"mut {node.identifier}")

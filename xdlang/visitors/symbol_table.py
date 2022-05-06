@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 from xdlang.structures import XDType, ast
 
@@ -12,6 +12,13 @@ class Symbol:
 
 
 @dataclass
+class Function:
+    identifier: str
+    type: XDType
+    args: List[Tuple[str, XDType]]
+
+
+@dataclass
 class Scope:
     parent: Optional["Scope"]
     symbols: dict
@@ -21,6 +28,10 @@ class Scope:
 class SymbolTable:
     def __init__(self) -> None:
         self.scopes: List[Scope] = [Scope(None, {}, "ROOT")]
+        self.functions: Dict[str, Function] = {}
+
+    def insert_function(self, function: Function):
+        self.functions[function.identifier] = function
 
     def push_scope(self, name: str) -> dict:
         scope = Scope(parent=self.scopes[-1], symbols={}, name=name)
@@ -50,7 +61,8 @@ class SymbolTable:
         raise Exception(f"Symbol {identifier} not found")
 
     def visit_program(self, node: ast.ProgramNode):
-        self.visit_block(node.block)
+        for f in node.functions:
+            self.visit_function_definition(f)
 
     def visit_block(self, node: ast.BlockNode):
         self.push_scope("block")
@@ -87,3 +99,7 @@ class SymbolTable:
 
     def visit_literal(self, node: ast.LiteralNode):
         pass
+
+    def visit_function_definition(self, node: ast.FuncDefinitionNode):
+        f = Function(node.identifier, node.type, node.args)
+        self.insert_function(f)

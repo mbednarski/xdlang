@@ -145,9 +145,11 @@ class FuncDefinitionNode(Node):
 
 
 class ProgramNode(Node):
-    def __init__(self, line: int, column: int, block: BlockNode) -> None:
+    def __init__(
+        self, line: int, column: int, functions: List[FuncDefinitionNode]
+    ) -> None:
         super().__init__(line, column)
-        self.block = block
+        self.functions = functions
 
 
 class NoopStmtNode(StmtNode):

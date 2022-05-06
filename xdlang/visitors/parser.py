@@ -27,7 +27,7 @@ class XDTransformer(Transformer):
         return ast.BlockNode(items[0].line, items[0].column, statements)
 
     def program(self, items):
-        return ast.ProgramNode(0, 0, items[0])
+        return ast.ProgramNode(0, 0, items)
 
     def func_def_stmt(self, items: List[Token]):
         identifier = items[0].value

@@ -5,6 +5,7 @@ from rich import print as rprint
 from rich.panel import Panel
 
 from xdlang.structures import XDType
+from xdlang.symbol_table_printer import print_symbol_table
 from xdlang.visitors.code_generator import CodeGenerator
 from xdlang.visitors.parser import parse_text, transform_parse_tree
 from xdlang.visitors.symbol_table import SymbolTable
@@ -31,7 +32,11 @@ class Compiler:
         self.ast_printer.visit_program(ast_tree)
         rprint(Panel(self.ast_printer.branch_stack[0], title="AST Tree"))
 
-        # self.symbol_table.visit_program(ast_tree)
+        self.symbol_table.visit_program(ast_tree)
+        print(self.symbol_table.functions)
+
+        print_symbol_table(self.symbol_table)
+
         # self.type_checker.visit_program(ast_tree)
         # self.code_generator.visit_program(ast_tree)
 
