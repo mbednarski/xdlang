@@ -13,7 +13,9 @@ def print_symbol_table(symbol_table: SymbolTable) -> None:
     functions.add_column("Type", justify="left")
     functions.add_column("Arguments", justify="left")
 
-    for f in symbol_table.functions.values():
+    scope = symbol_table.root_scope
+
+    for f in scope.functions.values():
         functions.add_row(f.identifier, str(f.type), ', '.join( [f'{x[0]} {x[1]}' for x in f.args]))
 
     panel = Panel(functions, title="Symbol Table")

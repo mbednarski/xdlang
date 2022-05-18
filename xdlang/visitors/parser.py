@@ -49,6 +49,17 @@ class XDTransformer(Transformer):
         return ast.FuncDefinitionNode(
             items[0].line, items[1].column, identifier, args, type, body
         )
+        
+    def let_stmt(self, items):
+        typename = items[0].value
+        identifier = items[1].value
+        expr = items[2]
+        assert isinstance(expr, ast.ExprNode)
+
+        return ast.LetStmtNode(
+            items[0].line, items[0].column, typename, identifier, expr
+        )
+
 
     # def prod_expr(self, items: list[ast.Node | Token]):
     #     assert len(items) == 3

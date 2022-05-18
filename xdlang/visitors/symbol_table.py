@@ -1,5 +1,6 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Tuple
+from xdlang.structures.types import PrimitiveType, TypeBase
 
 from xdlang.structures import XDType, ast
 
@@ -14,24 +15,33 @@ class Symbol:
 @dataclass
 class Function:
     identifier: str
-    type: XDType
-    args: List[Tuple[str, XDType]]
+    type: str
+    args: List[Tuple[str, str]]
 
 
 @dataclass
 class Scope:
-    parent: Optional["Scope"]
-    symbols: dict
-    name: str
-
+    parent:  Optional["Scope"]= field(default=None)
+    children: List["Scope"] = field(default_factory=list)
+    types: dict[str, TypeBase]= field(default_factory=dict)
+    functions: dict[str, Function]= field(default_factory=dict)
 
 class SymbolTable:
     def __init__(self) -> None:
-        self.scopes: List[Scope] = [Scope(None, {}, "ROOT")]
-        self.functions: Dict[str, Function] = {}
+        self.root_scope = Scope()
+        self.root_scope.types['int'] = PrimitiveType("int")
+        self.root_scope.types['bool'] = PrimitiveType("bool")
+        self.root_scope.types['float'] = PrimitiveType("float")
+        self.root_scope.types['char'] = PrimitiveType("char")
 
-    def insert_function(self, function: Function):
-        self.functions[function.identifier] = function
+        self.scopes = [self.root_scope]
+    
+
+    def insert_function(self, function: Function):        
+        scope = self.peek_scope()
+        if function.identifier in scope.functions:
+            raise Exception(f"Function {function.identifier} already defined")
+        scope.functions[function.identifier] = function
 
     def push_scope(self, name: str) -> dict:
         scope = Scope(parent=self.scopes[-1], symbols={}, name=name)

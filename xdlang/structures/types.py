@@ -5,7 +5,16 @@ from llvmlite import ir
 from llvmlite.ir.types import Type as IRType
 from rich import print as rprint
 
+import abc
 
+class TypeBase(abc.ABC):
+    def __init__(self) -> None:
+        pass
+
+class PrimitiveType():
+    def __init__(self, name:str) -> None:
+        self.name = name
+        
 class XDType(Enum):
     INT = 0
     FLOAT = 1

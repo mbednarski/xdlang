@@ -3,6 +3,7 @@ from pathlib import Path
 from llvmlite import ir
 from rich import print as rprint
 from rich.panel import Panel
+from pprint import pprint
 
 from xdlang.structures import XDType
 from xdlang.symbol_table_printer import print_symbol_table
@@ -33,7 +34,7 @@ class Compiler:
         rprint(Panel(self.ast_printer.branch_stack[0], title="AST Tree"))
 
         self.symbol_table.visit_program(ast_tree)
-        print(self.symbol_table.functions)
+        pprint(self.symbol_table.scopes)
 
         print_symbol_table(self.symbol_table)
 
