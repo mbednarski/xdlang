@@ -3,6 +3,11 @@ fn get5():int
     return 5;
 }
 
+fn foo(int x, int y):int
+{
+    return 0;
+}
+
 fn main():int
 {
     return 0;

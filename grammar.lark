@@ -15,7 +15,7 @@ mut_stmt: "mut" IDENTIFIER "=" expr ";"
 print_stmt: "print" expr ";"
 !noop_stmt: "noop" ";"
 !return_stmt: "return" expr ";"
-func_def_stmt: "fn" IDENTIFIER "("  ")" ":" IDENTIFIER block
+func_def_stmt: "fn" IDENTIFIER "(" (IDENTIFIER IDENTIFIER)? ("," IDENTIFIER IDENTIFIER)*  ")" ":" IDENTIFIER block
 
 !?sum_expr:  sum_expr "+" prod_expr
         | sum_expr "-" prod_expr

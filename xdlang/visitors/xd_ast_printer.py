@@ -36,7 +36,7 @@ class AstPrinter(BaseVisitor):
 
     def visit_func_definition(self, node: ast.FuncDefinitionNode):
         branch = self.branch_stack[-1].add(
-            f"Func {node.identifier}({', '.join(node.args)}) {node.type}"
+            f"Func {node.identifier}({', '.join( [f'{x[0]} {x[1]}' for x in node.args])}) {node.type}"
         )
         self.branch_stack.append(branch)
         node.body.accept(self)

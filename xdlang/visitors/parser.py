@@ -37,6 +37,15 @@ class XDTransformer(Transformer):
 
         type = XDType.from_typename(typename)
 
+
+        args = []
+        args_tokens = items[1:-2]
+        types = args_tokens[::2]
+        names = args_tokens[1::2]
+        for t, n in zip(types, names):
+            t = XDType.from_typename(t.value)
+            n = n.value
+            args.append((t, n))
         return ast.FuncDefinitionNode(
             items[0].line, items[1].column, identifier, args, type, body
         )
